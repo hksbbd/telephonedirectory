@@ -1,5 +1,8 @@
-FROM mysql:8.0
-ENV MYSQL_ROOT_PASSWORD=rootpassword
-ENV MYSQL_DATABASE=visitor_management
+FROM php:8.0-apache
+COPY . /var/www/html/
+RUN docker-php-ext-install pdo pdo_mysql mysqli
+# Expose port 80 (default HTTP port for Apache)
+EXPOSE 80
 
-COPY init.sql /docker-entrypoint-initdb.d/
+# Entrypoint to start Apache in the foreground
+CMD ["apache2-foreground"]
